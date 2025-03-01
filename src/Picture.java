@@ -89,8 +89,18 @@ public class Picture extends SimplePicture
 	flip all the colors:  if color had red = 30, green = 100, blue = 200
 	negated color red = 225, green= 155, blue = 55  */
 	public void negate() {
-		
-		
+		Pixel[][] pixels = this.getPixels2D(); 
+
+		Pixel pixel = null; 
+		for (int row = 0; row < pixels.length; row++)     
+		{       for (int col = 0; col < pixels[0].length; col++)       
+			{        
+								pixel = pixels[row][col];  
+								pixel.setRed(255 - pixel.getRed()); 
+								pixel.setBlue(255 - pixel.getBlue()); 
+								pixel.setGreen(255 - pixel.getGreen());
+			}     
+		}  
 	}
 	
 	/** converts a color image into grayscale.  There are many algorithms 
@@ -98,7 +108,19 @@ public class Picture extends SimplePicture
 	   and blue components and set each component to that average
 	*/
 	public void grayScale() {
-		
+		Pixel[][] pixels = this.getPixels2D(); 
+
+		Pixel pixel = null; 
+		for (int row = 0; row < pixels.length; row++)     
+		{       for (int col = 0; col < pixels[0].length; col++)       
+			{        
+								pixel = pixels[row][col];  
+								int average = (int)pixel.getAverage();
+								pixel.setRed(average); 
+								pixel.setBlue(average); 
+								pixel.setGreen(average);
+			}     
+		}  
 	}
 
   /** pixelates an image
@@ -108,24 +130,103 @@ public class Picture extends SimplePicture
     
   }
 
-	public void keepOnlyBlue()   
-	{     
+	public void keepOnlyBlue(){     
+		Pixel[][] pixels = this.getPixels2D(); 
+		Pixel pixel = null; 
+		for (int row = 0; row < pixels.length; row++){
+			for (int col = 0; col < pixels[0].length; col++){        
+				pixel = pixels[row][col]; 
+		 		pixel.setRed(0); 
+		 		pixel.setGreen(0); 
+			}     
+		}  
+	}
 
-		 Pixel[][] pixels = this.getPixels2D();
+	public void keepOnlyGreen(){     
+		Pixel[][] pixels = this.getPixels2D(); 
+		Pixel pixel = null; 
+		for (int row = 0; row < pixels.length; row++){
+			for (int col = 0; col < pixels[0].length; col++){        
+				pixel = pixels[row][col];  
+				pixel.setRed(0); 
+				pixel.setBlue(0); 
+			}     
+		}  
+	}
 
-		// Pixel[][] pixels = this.getPixels2D();     
-		Pixel pixel = null;     
-		for (int row = 0; row < pixels.length; row++)     
-		{       for (int col = 0; col < pixels[0].length; col++)       
-			{        
-								pixel = pixels[row][col];         
-		 						pixel.setRed(0);         
-		 						pixel.setGreen(0);       
+	public void keepOnlyRed(){     
+		Pixel[][] pixels = this.getPixels2D(); 
+		Pixel pixel = null; 
+		for (int row = 0; row < pixels.length; row++){
+			for (int col = 0; col < pixels[0].length; col++){        
+				pixel = pixels[row][col]; 
+				pixel.setGreen(0); 
+				pixel.setBlue(0); 
 			}     
 		}  
 	}
 	
-	
+	public int getCountRedOverValue(int x){
+		Pixel[][] pixels = this.getPixels2D(); 
+		Pixel pixel = null;
+		int num = 0; 
+		for (int row = 0; row < pixels.length; row++){
+			for (int col = 0; col < pixels[0].length; col++){        
+				pixel = pixels[row][col]; 
+				if (pixel.getRed() > x){
+					num++;
+				}
+			}     
+		}  
+		return num;
+	}
+
+	public void setRedToHalfValueInTopHalf(){
+		Pixel[][] pixels = this.getPixels2D(); 
+		Pixel pixel = null;
+		int topLength = pixels.length/2;
+		for (int row = 0; row < topLength; row++){
+			for (int col = 0; col < pixels[0].length; col++){        
+				pixel = pixels[row][col]; 
+				pixel.setRed(pixel.getRed()/2);
+			}     
+		}  
+	}
+
+	public void clearBlueOverValue(int x){
+		Pixel[][] pixels = this.getPixels2D(); 
+		Pixel pixel = null;
+		int topLength = pixels.length/2;
+		for (int row = 0; row < topLength; row++){
+			for (int col = 0; col < pixels[0].length; col++){        
+				pixel = pixels[row][col]; 
+				if (pixel.getBlue() > x){
+					pixel.setBlue(0);
+				}
+			}     
+		}  
+	}
+
+	public Color getAverageForColumn(Picture pic, int col){
+		Pixel[][] pixels = this.getPixels2D();
+		int num = 0; //Tracks num of pixels
+		int avg = 0; //Calculates the avg color
+		Picture test = new Picture("scenic.jpg"); //new image in order to use pixel 
+		//and not affect Picture pic 
+		Pixel x = new Pixel(test, 0, 0); //Creates a pixel to change in order to get color
+		Color a = null; 
+		for (int row = 0; row < pixels.length; row++){
+			avg += pixels[row][col].getAverage();
+			num++;
+		}
+		avg = avg/num; 
+		x.setRed(avg);
+		x.setBlue(avg);
+		x.setGreen(avg);
+		a = x.getColor();
+		return a;
+	}
+
 	/** Method that mirrors the picture around horizontal line that passes
 	 * through the center of the picture from left to right */
 	public void mirrorVertical()
@@ -133,6 +234,11 @@ public class Picture extends SimplePicture
 		Pixel[][] pixels = this.getPixels2D();
 		Pixel leftPixel = null;
 		Pixel rightPixel = null;
+		for(int row =0; row < pixels.length;row++){
+			for(int col = 0; col< pixels[0].length/2;col++){
+				pixels[row][pixels[0].length-col-1] = pixels[row][col];
+			}
+		}
 
 	}
 
