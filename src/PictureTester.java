@@ -44,9 +44,9 @@ public class PictureTester {
 		//testGetCountRedOverValue(250);
 		//testSetRedToHalfValueInTopHalf();
 		//testClearBlueOverValue(200);
-		Picture pic = new Picture("scenic.jpg");
-		Color avgColor = testGetAverageForColumn(pic, 0);// specified column
-		System.out.println(avgColor);
+		//Picture pic = new Picture("scenic.jpg");
+		//Color avgColor = testGetAverageForColumn(pic, 0);// specified column
+		//System.out.println(avgColor);
 		// testDiagonal();
 		// testQuads();
 		// testPixelate();
